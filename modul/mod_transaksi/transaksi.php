@@ -374,7 +374,7 @@ switch ($_GET[act]) {
 														<th>No.</th>
 														<th>Nama Barang</th>
 														<th>satuan</th>
-														<th>No. Batch</th>
+														<th>No. Batch dirubah</th>
 														<th>Jumlah</th>
 														<th>Harga</th>
 														<th>Kadaluarsa</th>
