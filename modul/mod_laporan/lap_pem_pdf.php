@@ -80,4 +80,3 @@ else{
     echo"<script>window.alert('Tidak ada laporan Pembelian pada Tanggal $m s/d $s');
   window.location=('".$uri."/apotek/out.php')</script>";
 }
-?>

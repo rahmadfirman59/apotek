@@ -392,18 +392,18 @@ switch ($_GET[act]) {
 													while ($q = mysql_fetch_array($x)) {
 														//start of isi
 														echo "
-			<td>$no</td> 
-			<td>$q[nama]</td>
-			<td align='center'>$q[satuan]</td>
-			<td align='center'><input type='text' name=\"bacth[$q[kode]]\" class=\"form-control\" value=''/></td>
-			<td><input id=\"jumlah$no\" class=\"form-control\" type=\"text\" name=\"qty[$q[kode]]\" onkeyup=\"calc($no);\"size=\"1\"value=\"1\"></td>
-			<td><input type='text' class=\"form-control\" id=\"harga$no\" size='12' name=\"harga[$q[kode]]\" onkeyup=\"calc($no);\"></td>
-			<td><input type='text' name=\"tgl_kd[$q[kode]]\" class=\"form-control\" value=''/></td>
-			<td id=\"sub$no\" class=\"subtotal\" ></td>";
+															<td>$no</td> 
+															<td>$q[nama]</td>
+															<td align='center'>$q[satuan]</td>
+															<td align='center'><input type='text' name=\"bacth[$q[kode]]\" class=\"form-control\" value=''/></td>
+															<td><input id=\"jumlah$no\" class=\"form-control\" type=\"text\" name=\"qty[$q[kode]]\" onkeyup=\"calc($no);\"size=\"1\"value=\"1\"></td>
+															<td><input type='text' class=\"form-control\" id=\"harga$no\" size='12' name=\"harga[$q[kode]]\" onkeyup=\"calc($no);\"></td>
+															<td><input type='text' name=\"tgl_kd[$q[kode]]\" class=\"form-control\" value=''/></td>
+															<td id=\"sub$no\" class=\"subtotal\" ></td>";
 														//end of isi
 														echo "<td align='center'><a href=\"$aksi?module=transaksi&act=trans_pemb&input=delete&id=$q[id_keranjang]&kode=$q[kode]\" Onclick=\"return confirm('Apakah Anda yakin akan menghapus $q[nama]?')\">
-					<span><i class='fa fa-pencil'></i></a></a></td><tr>
-					</tr>";
+															<span><i class='fa fa-pencil'></i></a></a></td><tr>
+															</tr>";
 														$no++;
 													}
 
@@ -450,7 +450,7 @@ switch ($_GET[act]) {
 										<?php
 										$tampil = mysql_query("SELECT * FROM supplier ORDER BY nm_supplier");
 										while ($r = mysql_fetch_array($tampil)) {
-											echo "<option value=$r[id_supplier]>$r[nm_supplier]</option>";
+											echo "<option value=$r[id]>$r[nm_supplier]</option>";
 										}
 										echo "</select>"; ?>
 										<label>No. Faktur</label> <input type="text" name="no_fak_sup" value="" placeholder="No. Faktur" class="form-control">
