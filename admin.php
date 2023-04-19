@@ -15,7 +15,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Akutani Apotek SAKA SASMITRA Perubahan</title>
+        <title>Akutani Apotek SAKA SASMITRA Perubahan dari rahmad </title>
         <!-- Bootstrap Styles-->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
