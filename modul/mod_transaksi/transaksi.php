@@ -111,183 +111,203 @@ switch ($_GET[act]) {
 			}
 		</script>
 
-		<div class="row">
-			<div class="col-lg-9">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<?php
-						$tgl = date('d-m-Y');
-						$date = date('Ymd');
-						$initial = "PJL";
-						$auto = mysql_query("select * from penjualan order by id desc limit 1");
-						$no = mysql_fetch_array($auto);
-						$angka = $no['id'] + 1;
+<div class="pagetitle" style="position: relative;">
+	<h1>Transaksi Penjualan</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#">Transaksi</a></li>
+			<li class="breadcrumb-item active"><a href="#">Transaksi Penjualan</a></li>
+		</ol>
+	</nav>
+</div><!-- End Page Title -->
 
-						echo "
-		 <form name='trans_penj' method='POST'  action='$aksi?module=transaksi&act=trans_penj&input=simpan&kode=$initial$angka$date' Onsubmit=\"return validasi(this)\">";
-						?>
-						<input type="button" class="btn" data-toggle="modal" data-target="#penjualan" value="Tambah" />
-						<?php
-
-
-						$sid = session_id();
-						$no = 1;
-						$x = $sql = mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$sid' AND keranjang.id_product=barang.kode AND transaksi='jual' ORDER BY id_keranjang") or die(mysql_error());
-						$cek = mysql_num_rows($x);
-
-						if ($cek > 0) {
-							echo "
-							<input class='btn' type='submit' value='Simpan' Onclick=\"alert('Apakah Anda yakin akan menyimpan transaksi ini?')\"  >";
-						} else {
-							echo "
-							<input class='btn' type='button' value='Simpan' Onclick=\"alert('Tambahkan data barang dahulu')\" >";
-						}
-
-						?>
-					</div>
-					<div class="panel-heading">
-
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="panel-body">
-										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>No.</th>
-														<th>Item</th>
-														<th>Satuan</th>
-														<th>Stok</th>
-														<th>Jumlah</th>
-														<th>Harga</th>
-														<th>Subtotal</th>
-														<th>Aksi</th>
-													</tr>
-												</thead>
-												<tbody>
-
-													<?php
-													while ($q = mysql_fetch_array($x)) {
-														$hrg = $q[hrg_jual];
-														$jml = $q[qty];
-														$subtotal = $hrg * $jml;
-														$total = $total + $subtotal;
-														echo "
-										<tr>
-										<td>$no</td>
-										<td>$q[nama]</td>
-										<td align='center'>$q[satuan]</td>
-										<td  id=\"stok$no\"ref=\"$q[stok]\" rel=\"$q[stok_minim]\" >$q[stok]</td>
-										<td><input class=\"form-control\" class=\"jml\" style=\"background:#fff;\"  type=\"text\" name=\"qty[$q[kode]]\" size=\"1\"value=\"$jml\" onkeyup=\"calc(this,'$no',$hrg);\"></td>
-										<td>" . number_format($q[hrg_jual], 2, ',', '.');
-														echo "</td>
-										<td style=\"background:rgb(221, 255, 221);\" id=\"sub$no\"  price=\"$hrg\">" . number_format($subtotal, 2, ',', '.');
-														echo "</td>
-										<td align='center'><a href=\"delp.$q[id_keranjang]&delp.$q[kode]\" Onclick=\"return confirm('Apakah Anda yakin akan menghapus $q[nama]?')\">
-										<span><i class='fa fa-pencil'></i></a></td>
-										</tr>";
-														$no++;
-													}
-
-													?>
-
-												</tbody>
-												<?php
-												echo "<tfooter>
-										<td align='right' colspan='6' style=\"background:rgb(221, 255, 221); padding: 0.25em;\"><b>Total<b></td>
-										<td id=\"total\" price=\"$total\" style=\"background:rgb(221, 255, 221);\">Rp&nbsp" . number_format($total, 2, ',', '.');
-												echo "
-										</td><td></td></tfoter>";
-												?>
-											</table>
-										</div>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
+<section class="section">
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="card">
+				<div class="card-header d-flex">
+					<?php
+					$tgl=date('d-m-Y');
+					$date=date('Ymd');
+					$initial="PJL";
+					$auto=mysql_query("select * from penjualan order by id desc limit 1");
+					$no=mysql_fetch_array($auto);
+					$angka=$no['id']+1;
+					
+					$sid = session_id();
+					$no = 1;
+					$x=$sql=mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$sid' AND keranjang.id_product=barang.kode AND transaksi='jual' ORDER BY id_keranjang") or die(mysql_error());
+					$cek = mysql_num_rows($x);
+					echo"
+					<form name='trans_penj' method='POST' style='width: 100%'  action='$aksi?module=transaksi&act=trans_penj&input=simpan&kode=$initial$angka$date' Onsubmit=\"return validasi(this)\">";
+						?>				
+					<button type='button'
+						style='margin-right: 10px;'
+						class='btn btn-warning' value='simpan' data-toggle="modal" data-target="#penjualan" value="Tambah"><i
+							class='fa fa-plus mr-1'></i>
+						Tambah Barang</button>
 				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<label>Total Belanja</label>
-						<input type="text" size='12' id="totalbelanja" name="totalbelanja" onkeyup="uangotomatis()" class="form-control" />
-						<label>Uang</label>
-						<input type="text" size='12' id="uang" name="uang" onkeyup="hitung()" class="form-control" />
-						<label>Kembali</label>
-						<span id="kembali" style='font-size:12pt; margin-left:10px'><span style='margin-left:15px'></span>Rp.0</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						Transaksi Penjualan
-					</div>
-					<div class="panel-heading">
-
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-12">
-
-								<div class="form-group">
-									<label>Dokter</label>
-									<select name="nm_dokter" class="form-control">
-										<option value="" selected>- Pilih Dokter -</option>
-										<?php
-										$tampil = mysql_query("SELECT * FROM dokter ORDER BY nm_dokter");
-										while ($r = mysql_fetch_array($tampil)) {
-											echo "<option value=$r[id_dokter]>$r[nm_dokter]</option>";
-										}
-										echo "</select>"; ?>
-								</div>
-							</div>
-						</div>
-						</form>
-						<div class="row">
-							<div class="col-lg-12">
-
-								<div class="form-group">
-									<label>No. Nota</label> <input type="text" value="<?php echo "$initial$angka$date"; ?>" class="form-control" disabled>
-									<label>Tanggal</label> <input type="text" value="<?php echo "$tgl"; ?>" class="form-control" disabled>
-								</div>
-							</div>
-						</div>
-						<div class="modal fade" id="penjualan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel">Tambahkan Item Barang</h4>
-									</div>
-									<div class="modal-body">
-										<?php
-										$pg = '';
-										if (!isset($_GET['pg'])) {
-											include('modul/mod_transaksi/form.php');
-										} else {
-											$pg = $_GET['pg'];
-											$mod = $_GET['mod'];
-											include $mod . '/' . $pg . ".php";
-										}
-										?>
-									</div>
-									<div class="modal-footer">
-									</div>
-								</div>
-							</div>
-						</div>
+				<div class="card-body mt-3">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover datatable-primary datatable-jquery table-center" width="100%" style="font-size: .8rem;">
+							<thead>
+								<tr>
+									<th scope="col">No.</th>
+									<th scope="col">Item</th>
+									<th scope="col">Satuan</th>
+									<th scope="col">Stok</th>
+									<th scope="col">Jumlah</th>
+									<th scope="col">Harga</th>
+									<th scope="col">Subtotal</th>
+									<th scope="col" style="width: 15%;">Aksi</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+									while($q=mysql_fetch_array($x)){
+									$hrg = $q[hrg_jual];
+									$jml = $q[qty];
+									$subtotal = $hrg * $jml;
+									$total = $total+$subtotal;
+								echo"
+									<tr>
+									<td>$no</td>
+									<td>$q[nama]</td>
+									<td align='center'>$q[satuan]</td>
+									<td  id=\"stok$no\"ref=\"$q[stok]\" rel=\"$q[stok_minim]\" >$q[stok]</td>
+									<td><input class=\"form-control\" class=\"jml\" style=\"background:#fff;\"  type=\"text\" name=\"qty[$q[kode]]\" size=\"1\"value=\"$jml\" onkeyup=\"calc(this,'$no',$hrg);\"></td>
+									<td>".number_format($q[hrg_jual],2,',','.');echo"</td>
+									<td style=\"background:rgb(221, 255, 221);\" id=\"sub$no\"  price=\"$hrg\">".number_format($subtotal,2,',','.');echo"</td>
+									<td align='center'>
+										<a href=\"delp.$q[id_keranjang]&delp.$q[kode]\" class='btn btn-danger' style='color: white' Onclick=\"return confirm('Apakah Anda yakin akan menghapus $q[nama]?')\"><i class='bi bi-trash-fill'></i></a>
+									</td>
+									</tr>";
+										$no++;
+								}
+									
+								?>
+							</tbody>
+							<tfooter>
+								<?php
+								echo"
+									<td align='right' colspan='6' style=\"background:rgb(221, 255, 221); padding: 0.25em;\"><b>Total<b></td>
+									<td id=\"total\" price=\"$total\" style=\"background:rgb(221, 255, 221);\">Rp&nbsp".number_format($total,2,',','.');echo"
+									</td><td></td>";
+								?>
+							</tfooter>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title p-0" style="display: inline-block">Kasir</h5>
+				</div>
+				<div class="card-body mt-3">
+					<div class="row" style="gap: 11px 0">
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Total Belanja</label>
+                                <input type="text" name="totalbelanja" id="totalbelanja" onkeyup="uangotomatis()" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Uang</label>
+                                <input type="text" id="uang" name="uang" onkeyup="hitung()" class="form-control">
+                            </div>
+                        </div>
+						<div class="d-flex fw-bold" style="font-size: 14px; padding-top: 15px;border-top: 1px solid #d8d1d1;margin-top: 10px;">
+							<label>Kembali</label>
+							<span id="kembali" style='margin-left:10px'><span style='margin-left:15px'></span>Rp.0</span>
+						</div>
+                    </div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title p-0" style="display: inline-block">Transaksi Penjualan</h5>
+				</div>
+				<div class="card-body mt-3">
+					<div class="row" style="gap: 11px 0">
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Dokter</label>
+                                <select name="nm_dokter" class="form-control">
+								<option value="" selected>- Pilih Dokter -</option>
+								<?php
+									$tampil=mysql_query("SELECT * FROM dokter ORDER BY nm_dokter");
+									while($r=mysql_fetch_array($tampil)){
+									echo "<option value=$r[id_dokter]>$r[nm_dokter]</option>";
+									}echo"</select>";?>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>No. Nota</label>
+                                <input type="text" value="<?php echo"$initial$angka$date";?>" class="form-control" disabled>
+                            </div>
+                        </div>
+						<div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="text" value="<?php echo"$tgl";?>" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="d-flex">
+			<?php
+				if($cek > 0){ 
+				echo"
+				<button type='submit'
+					style='width: 100%'
+					class='py-2 btn btn-success' value='Simpan' Onclick=\"alert('Apakah Anda yakin akan menyimpan transaksi ini?')\"'>
+					Simpan</button>";	
+				} else {
+				echo "
+				<button type='button'
+					style='width: 100%'
+					class='py-2 btn btn-success' value='Simpan' Onclick=\"alert('Tambahkan data barang dahulu')\"'>
+					Simpan</button>";	
+				} 		
+				echo"</form>"
+			?>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="modal fade" role="dialog" id="penjualan" tabindex="-1" data-keyboard="false" data-backdrop="static">
+	<div class="vertical-alignment-helper">
+		<div class="modal-dialog modal-lg vertical-align-center" role="document">
+			<div class="modal-content">
+				<div class="modal-header br">
+					<h5 class="modal-title">Tambahkan Item Barang </h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<?php
+						$pg = '';
+						if(!isset($_GET['pg'])) {
+							include ('modul/mod_transaksi/form.php');
+						}	else {
+							$pg = $_GET['pg'];
+							$mod = $_GET['mod'];
+							include $mod . '/' . $pg . ".php";
+						}		
+							?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 	<?php
 		break;
 	case "trans_pemb":
@@ -320,187 +340,219 @@ switch ($_GET[act]) {
 				}
 			}
 		</script>
+	<div class="pagetitle" style="position: relative;">
+		<h1>Transaksi Pembelian</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Transaksi</a></li>
+				<li class="breadcrumb-item active"><a href="#">Transaksi Pembelian</a></li>
+			</ol>
+		</nav>
+	</div><!-- End Page Title -->
+
+	<section class="section">
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+				<div class="card">
+					<div class="card-header d-flex">
 						<?php
-						$tgl = date('d-m-Y');
-						$date = date('Ymd');
-						$initial = "PMB";
-						$auto = mysql_query("select * from pembelian order by id_transaksi desc limit 1");
-						$no = mysql_fetch_array($auto);
-						$angka = $no['id'] + 1;
-
-						echo "
-		 <form name='trans_pemb' method='POST' action=\"$aksi?module=transaksi&act=trans_pemb&input=simpan&kode=$initial$angka$date\";>";
-						?>
-						<input type="button" class="btn" data-toggle="modal" data-target="#penjualan" value="Tambah" />
-						<?php
-
-
-						$s = session_id();
-						$z = $sql = mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$s' AND keranjang.id_product=barang.kode AND transaksi='beli' ORDER BY id_keranjang") or die(mysql_error());
-						$cek = mysql_num_rows($z);
-						if ($cek > 0) {
-							echo "
-						<input class='btn'type='submit' value='Simpan'  Onclick=\"return confirm('Apakah Anda yakin akan menyimpan transaksi ini?')\" >";
-						} else {
-							echo "<input class='btn' type='button' value='Simpan' Onclick=\"alert('Tambahkan data barang dahulu')\" >";
-						}
-						if ($cek > 0) {
-							echo " 
-						<a href=\"$aksi?module=transaksi&act=trans_pemb&input=hapus&status=beli\" Onclick=\"return confirm('Apakah Anda yakin akan membatalkan transaksi ini?')\">
-						<input class='btn'type='button' value='Batal'></a>";
-						} else {
-							echo "
-						";
-						}
-
-						?>
+							$s = session_id();
+							$z=$sql=mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$s' AND keranjang.id_product=barang.kode AND transaksi='beli' ORDER BY id_keranjang") or die(mysql_error());
+							$tgl=date('d-m-Y');
+							$date=date('Ymd');
+							$initial="PMB";
+							$auto=mysql_query("select * from pembelian order by id_transaksi desc limit 1");
+							$no=mysql_fetch_array($auto);
+							$angka=$no['id']+1;
+							echo"
+							<form name='trans_pemb' method='POST' action=\"$aksi?module=transaksi&act=trans_pemb&input=simpan&kode=$initial$angka$date\";>";
+							?>				
+						<button type='button'
+							style='margin-right: 10px;'
+							class='btn btn-warning' value='simpan' data-toggle="modal" data-target="#penjualan" value="Tambah"><i
+								class='fa fa-plus mr-1'></i>
+							Tambah Barang</button>
 					</div>
-					<div class="panel-heading">
-
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="panel-body">
-										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>No.</th>
-														<th>Nama Barang</th>
-														<th>satuan</th>
-														<th>No. Batch dirubah</th>
-														<th>Jumlah</th>
-														<th>Harga</th>
-														<th>Kadaluarsa</th>
-														<th>Subtotal</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-
-													<?php
-													$sid = session_id();
-													$no = 1;
-													$x = $sql = mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$sid' AND keranjang.id_product=barang.kode AND transaksi='beli' ORDER BY id_keranjang") or die(mysql_error());
-													$cek = mysql_num_rows($x);
-													while ($q = mysql_fetch_array($x)) {
-														//start of isi
-														echo "
-															<td>$no</td> 
-															<td>$q[nama]</td>
-															<td align='center'>$q[satuan]</td>
-															<td align='center'><input type='text' name=\"bacth[$q[kode]]\" class=\"form-control\" value=''/></td>
-															<td><input id=\"jumlah$no\" class=\"form-control\" type=\"text\" name=\"qty[$q[kode]]\" onkeyup=\"calc($no);\"size=\"1\"value=\"1\"></td>
-															<td><input type='text' class=\"form-control\" id=\"harga$no\" size='12' name=\"harga[$q[kode]]\" onkeyup=\"calc($no);\"></td>
-															<td><input type='text' name=\"tgl_kd[$q[kode]]\" class=\"form-control\" value=''/></td>
-															<td id=\"sub$no\" class=\"subtotal\" ></td>";
-														//end of isi
-														echo "<td align='center'><a href=\"$aksi?module=transaksi&act=trans_pemb&input=delete&id=$q[id_keranjang]&kode=$q[kode]\" Onclick=\"return confirm('Apakah Anda yakin akan menghapus $q[nama]?')\">
-															<span><i class='fa fa-pencil'></i></a></a></td><tr>
-															</tr>";
-														$no++;
-													}
-
-													?>
-
-												</tbody>
-												<tfoot>
-													<tr>
-														<th style="text-align:right" colspan="7">Potongan</th>
-														<th id="tot_bar" colspan="2"><input type="text" name='potongan' id='potongan' onkeyup="calc();" value='0' class="form-control"></th>
-													</tr>
-													<tr>
-														<th style="text-align:right" colspan="7">Total</th>
-														<th id="tot_bar" colspan="2"><span id="total"></span></th>
-													</tr>
-												</tfoot>
-											</table>
-										</div>
-									</div>
-
-								</div>
-							</div>
+					<div class="card-body mt-3">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover datatable-primary datatable-jquery table-center" width="100%" style="font-size: .8rem;">
+								<thead>
+									<tr>
+										<th scope="col">No.</th>
+										<th scope="col" style="width: 20%;">Nama Barang</th>
+										<th scope="col">Satuan</th>
+										<th scope="col">No. Batch Dirubah</th>
+										<th scope="col">Jumlah</th>
+										<th scope="col">Harga</th>
+										<th scope="col">Kadaluarsa</th>
+										<th scope="col">Subtotal</th>
+										<th scope="col" style="width: 10%;">Aksi</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$sid = session_id();
+									$no = 1;
+									$x=$sql=mysql_query("SELECT * FROM keranjang, barang WHERE id_session='$sid' AND keranjang.id_product=barang.kode AND transaksi='beli' ORDER BY id_keranjang") or die(mysql_error());
+									$cek = mysql_num_rows($x);
+									while($q=mysql_fetch_array($x)){
+									//start of isi
+									echo"
+									<td>$no</td> 
+									<td>$q[nama]</td>
+									<td align='center'>$q[satuan]</td>
+									<td align='center'><input type='text' name=\"bacth[$q[kode]]\" class=\"form-control\" value=''/></td>
+									<td><input id=\"jumlah$no\" class=\"form-control\" type=\"text\" name=\"qty[$q[kode]]\" onkeyup=\"calc($no);\"size=\"1\"value=\"1\"></td>
+									<td><input type='text' class=\"form-control\" id=\"harga$no\" size='12' name=\"harga[$q[kode]]\" onkeyup=\"calc($no);\"></td>
+									<td><input type='text' name=\"tgl_kd[$q[kode]]\" class=\"form-control\" value=''/></td>
+									<td id=\"sub$no\" class=\"subtotal\" ></td>";
+									//end of isi
+									echo"
+									<td align='center'>
+										<a href=\"$aksi?module=transaksi&act=trans_pemb&input=delete&id=$q[id_keranjang]&kode=$q[kode]\" class='btn btn-danger' style='color: white' Onclick=\"return confirm('Apakah Anda yakin akan menghapus $q[nama]?')\"><i class='bi bi-trash-fill'></i></a>
+									</td></tr>";
+										$no++;
+									}				
+									?>
+								</tbody>
+								<tfooter>
+									<tr> 
+										<th style="text-align:right" colspan="7">Potongan</th> 
+										<th id="tot_bar" colspan="2"><input type="text" name='potongan' id='potongan' onkeyup="calc();"  value='0'  class="form-control"></th>
+									</tr> 
+									<tr> 
+										<th style="text-align:right" colspan="7">Total</th> 
+										<th id="tot_bar" colspan="2"><span id="total"></span></th>
+									</tr> 
+								</tfooter>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						Transaksi Pembelian
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title p-0" style="display: inline-block">Transaksi Pembelian</h5>
 					</div>
-					<div class="panel-heading">
-
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-12">
-
+					<div class="card-body mt-3">
+						<div class="row" style="gap: 11px 0">
+							<div class="col-12 col-md-12 col-lg-12">
 								<div class="form-group">
-
 									<label>Supplier</label>
 									<select name="nm_supplier" class="form-control">
-										<option value="0" selected>- Pilih Supplier -</option>
-										<?php
-										$tampil = mysql_query("SELECT * FROM supplier ORDER BY nm_supplier");
-										while ($r = mysql_fetch_array($tampil)) {
-											echo "<option value=$r[id]>$r[nm_supplier]</option>";
-										}
-										echo "</select>"; ?>
-										<label>No. Faktur</label> <input type="text" name="no_fak_sup" value="" placeholder="No. Faktur" class="form-control">
-										<label>Tanggal Faktur</label> <input type="date" name="tgl_fak" placeholder="YYYY-MM-DD" value="" class="form-control">
-										<label>No. Nota</label> <input type="text" value="<?php echo "$initial$angka$date"; ?>" class="form-control" disabled>
-										<label>Tanggal</label> <input type="text" value="<?php echo "$tgl"; ?>" class="form-control" disabled>
-										<br>
-
-										<label class="checkbox-inline">
-											<input name='status' id="tunai" type='radio' value='Tunai'></label>
-										<label>Tunai</label>
-
-										<label class="checkbox-inline">
-											<input name='status' id="tempo" type='radio' value='Tempo'></label>
-										<label>Tempo</label>
-
-										<label>Jatuh Tempo</label>
-										<input type="date" name="tgl_tempo" id="tgl_tempo" value="" class="form-control">
+									<option value="0" selected>- Pilih Supplier -</option>
+									<?php
+										$tampil=mysql_query("SELECT * FROM supplier ORDER BY nm_supplier");
+										while($r=mysql_fetch_array($tampil)){
+										echo "<option value=$r[id_supplier]>$r[nm_supplier]</option>";
+										}echo"</select>";
+									?>
 								</div>
 							</div>
-						</div>
-						</form>
-						<div class="modal fade" id="penjualan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel">Tambahkan Item Barang</h4>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label>No. Faktur</label>
+									<input type="text" id="no_fak_sup" name="no_fak_sup" value="" class="form-control">
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label>Tanggal Faktur</label>
+									<input type="date" placeholder="YYYY-MM-DD" id="tgl_fak" name="tgl_fak" value="" class="form-control">
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label>No. Nota</label>
+									<input type="text" disabled value="<?php echo"$initial$angka$date";?>" class="form-control">
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label>Tanggal</label>
+									<input type="text" disabled value="<?php echo"$tgl";?>" class="form-control">
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group d-flex justify-content-around">
+									<div>
+										<label class="checkbox-inline"><input name='status' id="tunai" type='radio' value='Tunai'></label>
+										<label>Tunai</label>
 									</div>
-									<div class="modal-body">
-										<?php
-										$pg = '';
-										if (!isset($_GET['pg'])) {
-											include('modul/mod_transaksi/formpemb.php');
-										} else {
-											$pg = $_GET['pg'];
-											$mod = $_GET['mod'];
-											include $mod . '/' . $pg . ".php";
-										}
-										?>
+									<div>
+										<label class="checkbox-inline"><input name='status' id="tempo" type='radio' value='Tempo'></label>
+										<label>Tempo</label>
 									</div>
-									<div class="modal-footer">
-									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label>Jatuh Tempo</label>
+									<input type="date" name="tgl_tempo" disabled id="tgl_tempo" value="" class="form-control">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="d-flex" style="flex-direction: column; gap: 15px">
+				<?php
+					$cek = mysql_num_rows($z);
+					if($cek > 0){ 
+					echo"
+					<button type='submit'
+						style='width: 100%'
+						class='py-2 btn btn-success' value='simpan' Onclick=\"alert('Apakah Anda yakin akan menyimpan transaksi ini?')\"'>
+						Simpan</button>";	
+					} else {
+					echo "
+					<button type='button'
+						style='width: 100%'
+						class='py-2 btn btn-success' value='simpan' Onclick=\"alert('Tambahkan data barang dahulu')\"'>
+						Simpan</button>";	
+					} 		
+					if($cek > 0){
+					echo" 
+					<a href=\"$aksi?module=transaksi&act=trans_pemb&input=hapus&status=beli\" Onclick=\"return confirm('Apakah Anda yakin akan membatalkan transaksi ini?')\">
+					<input class='btn btn-secondary py-2' style='width: 100%' type='button' value='Batal'></a>";
+					} else {
+					echo"
+					";
+					} 
+					echo"</form>"
+				?>
+				</div>
 			</div>
 		</div>
+	</section>
+	<div class="modal fade" role="dialog" id="penjualan" tabindex="-1" data-keyboard="false" data-backdrop="static">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog modal-lg vertical-align-center" role="document">
+				<div class="modal-content">
+					<div class="modal-header br">
+						<h5 class="modal-title">Tambahkan Item Barang </h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<?php
+								$pg = '';
+								if(!isset($_GET['pg'])) {
+									include ('modul/mod_transaksi/formpemb.php');
+								}	else {
+									$pg = $_GET['pg'];
+									$mod = $_GET['mod'];
+									include $mod . '/' . $pg . ".php";
+								}		
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<?php
 		break;
 	case "detailpelunasan":

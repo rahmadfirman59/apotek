@@ -11,7 +11,6 @@ include "Inc/fungsi_rupiah.php";
 include"Inc/backup.php";
 
 
-
 if ($_GET['module']=='home'){
 	include "modul/mod_home/home.php";
 	}

@@ -131,40 +131,83 @@
 	}
 	
 	?>
-				<div class="panel-heading">
-                          <?php echo"$datarek";?>
-                 </div>
-				 <div class="form-group">
-					<label>Kode Transaksi Biaya</label>
-					<input type="text" id="idbiaya"  value="<?php echo"$initial$angka$date";?>"  class="form-control" readonly>
-					
-					<label>Kode Rekening</label>
-					<input type="text" id="idrekening" name="term" value="<?php echo"$kode";?>" placeholder="Kode Rekening" class="form-control"/>
-					
-					<label>Nama Rekening</label>
-                    <input type="text" value="<?php echo"$nama";?>" id="nm_rekening" class="form-control" readonly>
-					
-					<label>Jenis</label>
-							<select id='jenis' class='form-control'>
-							<?php 
-								// tampilkan untuk form ubah rekening
-							if($kd_rek > 0) 
-							{ 
-							?>
-								<option value="<?php echo $jenis ?>"><?php echo $status ?></option>
-							<?php 
-							} 
-							?>
-									<option value='1'>Debit</option>
-									<option value='2'>Kredit</option>
-						</select>
-                    <label>Jumlah</label>
-					<input type="text" value="<?php echo"$jumlah";?>" id="jumlah" class="form-control">
-
-                    </div>
-				<button id='update_rekening' class='btn'>Simpan</button>
-				<input class="btn" type="button" value="Batal" onClick="self.history.back()";>
 				
-				 <div class="modal-footer">
-					*nb. <br>biaya yang sudah di posting di jurnal umum tidak bisa di ubah
+<div class="pagetitle" style="position: relative;">
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#">Jurnal</a></li>
+			<li class="breadcrumb-item"><a href="jurnal.penyesuaian">Jurnal Penyesuaian</a></li>
+			<li class="breadcrumb-item active"><a href="#">Tambah Biaya</a></li>
+		</ol>
+	</nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+	<div class="row">
+		<div class="col-lg-10">
+
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title p-0" style="display: inline-block">Tambah Biaya</h5>
 				</div>
+				<div id="pesan"></div>
+				<div class="card-body mt-3">
+					<div class="row" style="gap: 11px 0">
+						<div class="panel-heading">
+							<?php echo"$datarek";?>
+						</div>
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Kode Transaksi Biaya</label>
+                                <input type="text" name="idbiaya" id="idbiaya" value="<?php echo"$initial$angka$date";?>" disabled class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label>Kode Rekening</label>
+                                <input type="text" name="idrekening" value="<?php echo"$kode";?>" id="idrekening" class="form-control">
+                            </div>
+                        </div>
+						<div class="col-12 col-md-12 col-lg-12">
+							<div class="form-group">
+								<label>Nama Rekening</label>
+                			    <input type="text" value="<?php echo"$nama";?>" id="nm_rekening" disabled class="form-control" readonly>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-lg-12">
+							<div class="form-group">
+								<label>Jenis</label>
+								<select id='jenis' class='form-control'>
+									<?php 
+										// tampilkan untuk form ubah rekening
+									if($kd_rek > 0) 
+									{ 
+									?>
+										<option value="<?php echo $jenis ?>"><?php echo $status ?></option>
+									<?php 
+									} 
+									?>
+											<option value='1'>Debit</option>
+											<option value='2'>Kredit</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-lg-12">
+							<div class="form-group">
+								<label>Jumlah</label>
+								<input type="text" value="<?php echo"$jumlah";?>" id="jumlah" class="form-control">
+							</div>
+						</div>
+						<p style="font-size: .8rem; color: red; margin-top: 10px">
+							*nb. <br>biaya yang sudah di posting di jurnal umum tidak bisa di ubah
+						</p>
+                    </div>
+				</div>
+				<div class="modal-footer bg-whitesmoke p-3" style="border: 1px solid #ebeef4; gap: 10px">
+                    <button type="button" class="btn btn-secondary" onClick="self.history.back()">Batal</button>
+                    <button type="button" id="update_rekening" class="btn btn-warning">Simpan</button>
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
