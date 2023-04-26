@@ -36,6 +36,7 @@ switch ($p) {
 								<thead>
 									<tr>
 										<th>No.</th>
+										<th>Kode</th>
 										<th>Nama Barang</th>
 										<th>Jenis</th>
 										<th>Satuan</th>
@@ -57,6 +58,7 @@ switch ($p) {
 										$total = $total + $subtotal;
 										echo "<tr class='odd gradeX'>
 												<td>$no</td>
+												<td>$r[kode]</td>
 												<td>$r[nama]</td>
 												<td>$r[jenis]</td>
 												<td>$r[satuan]</td>
