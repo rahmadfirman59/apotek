@@ -9,6 +9,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
     echo "<input type='button' class='btn' value='Klik disini' title='klik disini' onclick=\"window.location.href='index.php';\"></center></peringatan>";
 } else {
 ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
