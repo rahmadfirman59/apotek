@@ -1,6 +1,6 @@
 <?php
 function combotgl($awal, $akhir, $var, $terpilih){
-  echo "<select S name=$var>";
+  echo "<select name=$var class='form-control form-select' style='display: inline-block; width: unset'>";
   for ($i=$awal; $i<=$akhir; $i++){
     $lebar=strlen($i);
     switch($lebar){
@@ -24,7 +24,7 @@ function combotgl($awal, $akhir, $var, $terpilih){
 }
 
 function combobln($awal, $akhir, $var, $terpilih){
-  echo "<select  name=$var>";
+  echo "<select  name=$var class='form-control form-select' style='display: inline-block; width: unset'>";
   for ($bln=$awal; $bln<=$akhir; $bln++){
     $lebar=strlen($bln);
     switch($lebar){
@@ -48,7 +48,7 @@ function combobln($awal, $akhir, $var, $terpilih){
 }
 
 function combothn($awal, $akhir, $var, $terpilih){
-  echo "<select  name=$var>";
+  echo "<select  name=$var class='form-control form-select' style='display: inline-block; width: unset'>";
   for ($i=$awal; $i<=$akhir; $i++){
     if ($i==$terpilih)
       echo "<option value=$i selected>$i</option>";
@@ -62,7 +62,7 @@ function combonamabln($awal, $akhir, $var, $terpilih){
   $nama_bln=array(1=> "Januari", "Februari", "Maret", "April", "Mei", 
                       "Juni", "Juli", "Agustus", "September", 
                       "Oktober", "November", "Desember");
-  echo "<select  name=$var>";
+  echo "<select  name=$var class='form-control form-select' style='display: inline-block; width: unset'>";
   for ($bln=$awal; $bln<=$akhir; $bln++){
       if ($bln==$terpilih)
          echo "<option value=$bln selected>$nama_bln[$bln]</option>";

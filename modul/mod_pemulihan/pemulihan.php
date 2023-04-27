@@ -3,31 +3,38 @@ switch ($_GET[act]){
 	default:
 	if($_SESSION['leveluser']=='admin'){
 	?>
-<div class="row">
-				<div class="col-md-12 col-sm-12">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-							<p align="center"><em>Aplikasi ini digunakan untuk <strong><a href="#">backup</a></strong> dan <strong><a href="restore">restore</a></strong> semua data yang ada didalam database &quot;<strong><?php echo"$db";?></strong>&quot;.</em></p>	
-                        </div>
-                        <div class="panel-body">      
-	<?php
-    echo "
-		  <form action=\"pemulihan\" method=\"post\" name=\"postform\">
-	<div align=\"center\">
-	   <p>
-	    <input type=\"submit\" class='btn btn-danger btn-lg' name=\"backup\"  onClick=\"return confirm('Apakah Anda yakin?')\"value=\"Proses Backup\" />
-	  </p>
-  </div>
-</form>";
-?>
+	<div class="card">
+		<div class="card-header">
+			<h5 class="card-title p-0" style="display: inline-block">Backup / Restore Database</h5>
+		</div>
+		<div class="card-body mt-3">
+			<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<p align="center"><em>Aplikasi ini digunakan untuk <strong><a href="#">backup</a></strong> dan <strong><a href="restore">restore</a></strong> semua data yang ada didalam database &quot;<strong><?php echo"$db";?></strong>&quot;.</em></p>	
+									</div>
+									<div class="panel-body">      
+				<?php
+				echo "
+						<form action=\"pemulihan\" method=\"post\" name=\"postform\">
+				<div align=\"center\">
+					<p>
+					<input type=\"submit\" class='btn btn-danger btn-lg' name=\"backup\"  onClick=\"return confirm('Apakah Anda yakin?')\"value=\"Proses Backup\" />
+					</p>
 				</div>
-                        <div class="panel-footer">
-                           *perhatian berhati-hati dalam membackup database
-                        </div>
-                    </div>
-                </div>
+			</form>";
+			?>
+			</div>
+					<div class="panel-footer">
+						*perhatian berhati-hati dalam membackup database
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-			</div>  
+</div>  
 <?php
 if(isset($_POST['backup'])){
 	

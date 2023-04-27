@@ -1,19 +1,3 @@
-/**
-********************app-apotek.js *********************************
-** @Dibuat oleh :	Bagus T. Hidayatullah 				   	******
-** @Tanggal 	:	7 april 2013 21:55 WIB					******
-** @Model 	    :	CMS.Accounting for busines				******
-** @Version	    :	bigbookaccounting.v.12					******
-** @Call	    :	www.facebook.com/bagustilash			******
-** @Project	    :	bigbookaccoungting						******
-##################################################################	
-    Discripsi:
- * ini adalah sebuah applikasi PHP diperuntukan untuk akuntansi.
- * di gunakan pada pembukuan akuntansi dan persediaan.
- * dengan pengontrolan penuh pada semua kegiatan transaksi.
- 
-****Copyright 2013 Bagus T.Hidayatullah, all rights reserved.*****
-*/
 
 (function ($) {
     // fungsi dijalankan setelah seluruh dokumen ditampilkan

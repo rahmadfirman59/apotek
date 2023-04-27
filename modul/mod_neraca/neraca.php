@@ -50,76 +50,95 @@ switch ($_GET[act]) {
         }
 
 ?>
+<div class="pagetitle" style="position: relative;">
+	<h1>Laporan Neraca</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#">Laporan</a></li>
+			<li class="breadcrumb-item active"><a href="#">Laporan Neraca</a></li>
+		</ol>
+	</nav>
+</div><!-- End Page Title -->
 
-        <div class="col-md-12 col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <p style="text-align:center"> <?php echo "$pemilik[nm_perusahaan]<br>$pemilik[alamat]" ?><br>Laporan Neraca Periode <?php echo tgl_indo($tgl_sekarang); ?></p>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-6 col-sm-6">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Aktiva</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2">Kas</td>
-                                        <td><?php echo "Rp." . number_format($kas[jumlah], 2, '.', ','); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Persedian Akhir Barang</td>
-                                        <td><?php echo "Rp." . number_format($persedian_akhir, 2, '.', ','); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Total</td>
-                                        <td><?php echo "Rp." . number_format($aktiva, 2, '.', ','); ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Passiva</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2">Hutang</td>
-                                        <td><?php echo "Rp." . number_format($hut[jumlah], 2, '.', ','); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Modal</td>
-                                        <td><?php echo "Rp." . number_format($modal[jumlah], 2, '.', ','); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Pendapatan</td>
-                                        <td><?php echo "Rp." . number_format($laba, 2, '.', ','); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Total</td>
-                                        <td><?php echo "Rp." . number_format($passiva, 2, '.', ','); ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="section">
+	<div class="row">
+		<div class="col-lg-12">
+			<section class="section">
+				<div class="row">
+					<div class="col-lg-12">
+
+						<div class="card">
+							<div class="card-header text-center">
+								<h5 class="card-title p-0" style="display: inline-block"><?php echo"$pemilik[nm_perusahaan]<br>$pemilik[alamat]" ?><br>Laporan Persediaan Priode <?php echo tgl_indo($tgl_sekarang);?></h5>
+							</div>
+							<div class="card-body mt-4">
+								<div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Aktiva</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="3">Kas</td>
+                                                        <td><?php  echo "Rp.".number_format($kas[jumlah],2,'.',','); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">Persedian Akhir Barang</td>
+                                                        <td><?php  echo "Rp.".number_format($persedian_akhir,2,'.',','); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">Total</td>
+                                                        <td align="right"><?php  echo "Rp.".number_format($aktiva,2,'.',','); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Passiva</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="3">Hutang</td>
+                                                        <td><?php  echo "Rp.".number_format($hut[jumlah],2,'.',','); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">Modal</td>
+                                                        <td><?php  echo "Rp.".number_format($modalakhir,2,'.',','); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">Total</td>
+                                                        <td align="right"><?php  echo "Rp.".number_format($passiva,2,'.',','); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</section>
 
 <?php
 }

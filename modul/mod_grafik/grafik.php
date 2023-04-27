@@ -4,26 +4,55 @@ switch($_GET[act]){
 		
 		$pemilik=mysql_fetch_array(mysql_query("select nm_perusahaan,alamat from bigbook_perusahaan")) or die ("gagal");
 ?>
-		<script src="assets/js/highcharts.js"></script>
-			<script type="text/javascript">
-$(function () {
-    var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
+<!-- Reports -->
+<div class="pagetitle" style="position: relative;">
+    <h1>Grafik</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Grafik</a></li>
+            <li class="breadcrumb-item active"><a href="#">Grafik Keuangan</a></li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<div class="col-12">
+    <div class="card">
+
+    <div class="card-body">
+        <h5 class="card-title">Grafik Keuangan Apotek</span></h5>
+
+        <!-- Line Chart -->
+        <div id="reportsChart"></div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            new ApexCharts(document.querySelector("#reportsChart"), {
             chart: {
-                renderTo: 'container',
-                type: 'line'
+                height: 350,
+                type: 'area',
+                toolbar: {
+                show: false
+                },
             },
-            title: {
-                text: 'Grafik Keuangan'
+            markers: {
+                size: 4
             },
-            subtitle: {
-                text: '<?php echo"$pemilik[nm_perusahaan]" ?>'
+            colors: ['#4154f1', '#2eca6a', '#ff771d', '#dc3545'],
+            fill: {
+                type: "gradient",
+                gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.3,
+                opacityTo: 0.4,
+                stops: [0, 90, 100]
+                }
             },
-            xAxis: {
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
                  categories: [ 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Apr','May',  ]
             },
-            yAxis: {
+            yaxis: {
                 title: {
                     text: 'Jumlah'
                 }
@@ -98,19 +127,16 @@ $(function () {
                 name: 'Hutang',
                 data: [<?php echo join($hut, ',') ?>,<?php echo $hutang1 ?>]
             }]
+            }).render();
         });
-    });
-    
-});
-		</script>
-	</head>
-	<body>
-<div id="grafik">
-<fieldset>
-<div id="container" style="margin: 0 auto"></div>
-<div id="container1" style="margin: 0 auto"></div>
-</fieldset>
-</div>
+        </script>
+        <!-- End Line Chart -->
+
+    </div>
+
+    </div>
+</div><!-- End Reports -->
+
 <?php
 	echo"";
 }
